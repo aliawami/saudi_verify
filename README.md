@@ -1,39 +1,87 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# saudi_verify
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages). 
+Dart validators for Saudi national ID / Iqama, mobile numbers, IBAN, and VAT numbers.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages). 
--->
+## Installation
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+```sh
+dart pub add saudi_verify
+```
 
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+## Requirements
+Dart 3.0 or later.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+Import the library and handle results with `switch` on the sealed `ValidationResult` type (`Valid` vs `Invalid`).
+
+### National ID
 
 ```dart
-const like = 'sample';
+import 'package:saudi_verify/saudi_verify.dart';
+
+switch (validateNationalID('1000000000')) {
+   case Valid(:final metadata):
+      print(metadata);
+   case Invalid(:final reason):
+      print(reason);
+}
+
 ```
 
-## Additional information
+### Mobile
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+```dart
+import 'package:saudi_verify/saudi_verify.dart';
+
+switch (validateMobile('0501234567')) {
+   case Valid(:final metadata):
+      print(metadata);
+   case Invalid(:final reason):
+      print(reason);
+}
+
+```
+
+### IBAN
+
+```dart
+import 'package:saudi_verify/saudi_verify.dart';
+
+switch (validateIBAN('SA0380000000608010167519')) {
+   case Valid(:final metadata):
+      print(metadata);
+   case Invalid(:final reason):
+      print(reason);
+}
+
+```
+
+### VAT
+
+```dart
+import 'package:saudi_verify/saudi_verify.dart';
+
+switch (validateVAT('312345678901233')) {
+   case Valid(:final metadata):
+      print(metadata);
+   case Invalid(:final reason):
+      print(reason);
+}
+
+```
+
+## Metadata on success
+
+When validation returns `Valid`, the `metadata` map may contain the following keys (depending on the validator):
+
+| Validator | Key | Meaning / example values |
+|-----------|-----|---------------------------|
+| `validateNationalID` | `idType` | `"citizen"` if the number starts with `1`, `"iqama"` if it starts with `2` |
+| `validateMobile` | `carrier` | Mobile operator label, e.g. `STC`, `Mobily`, `Zain`, `Virgin`, `Red Bull`, `Lebara`, `Salam` |
+| `validateIBAN` | `countryCode` | ISO country letters from the IBAN (e.g. `SA`) |
+| `validateIBAN` | `checkDigits` | Two check digits from the IBAN |
+| `validateIBAN` | `bban` | Basic bank account number (remaining 20 characters after country + check digits) |
+| `validateVAT` | `issuingAuthority` | `"ZATCA"` |
+
+For a runnable demo, see [`example/saudi_verify_example.dart`](example/saudi_verify_example.dart).
