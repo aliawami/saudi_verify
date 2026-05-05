@@ -1,5 +1,9 @@
 import 'package:saudi_verify/src/validation_result.dart';
 
+/// Validates a Saudi mobile number.
+///
+/// Accepts local and international formats, then returns [Valid] with
+/// `carrier` metadata when recognized, otherwise returns [Invalid].
 ValidationResult validateMobile(String mobile) {
   if (mobile.isEmpty) {
     return const Invalid("Mobile number is required");

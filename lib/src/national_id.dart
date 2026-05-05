@@ -1,5 +1,9 @@
 import 'package:saudi_verify/src/validation_result.dart';
 
+/// Validates a Saudi national ID or Iqama number.
+///
+/// Returns [Valid] with `idType` metadata (`citizen` or `iqama`) when the
+/// value is valid, otherwise returns [Invalid].
 ValidationResult validateNationalID(String nationalID) {
   if (nationalID.isEmpty) {
     return const Invalid("National ID is required");

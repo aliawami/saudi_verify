@@ -1,6 +1,6 @@
 name: saudi_verify
 description: A Dart package for validating Saudi Arabian identifiers — National ID, Iqama, mobile numbers, IBAN, and VAT numbers.
-version: 0.1.0
+version: 0.1.1
 repository: https://github.com/aliawami/saudi_verify
 
 environment:

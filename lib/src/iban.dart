@@ -1,5 +1,9 @@
 import 'package:saudi_verify/src/validation_result.dart';
 
+/// Validates a Saudi IBAN.
+///
+/// Returns [Valid] with parsed IBAN metadata (`countryCode`, `checkDigits`,
+/// and `bban`) when valid, otherwise returns [Invalid].
 ValidationResult validateIBAN(String iban) {
   if (iban.isEmpty) {
     return const Invalid("IBAN is required");
@@ -45,6 +49,7 @@ ValidationResult validateIBAN(String iban) {
       : const Invalid("IBAN is not valid");
 }
 
+/// Encodes an uppercase letter to the IBAN numeric equivalent (A=10...Z=35).
 int encodeA1Z26(String text) {
   if (text.codeUnitAt(0) >= 65 && text.codeUnitAt(0) <= 90) {
     // A=65, so A-65 + 10 = 1
