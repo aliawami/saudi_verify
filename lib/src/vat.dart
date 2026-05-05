@@ -1,5 +1,9 @@
 import 'package:saudi_verify/src/validation_result.dart';
 
+/// Validates a Saudi VAT number.
+///
+/// Returns [Valid] with ZATCA metadata when the VAT number is structurally
+/// valid, otherwise returns [Invalid] with a human-readable reason.
 ValidationResult validateVAT(String vat) {
   if (vat.isEmpty) {
     return const Invalid("VAT is required");
